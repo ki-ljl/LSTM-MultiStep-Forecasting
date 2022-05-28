@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/LSTM-MultiStep-Load-Forecasting.iml" filepath="$PROJECT_DIR$/.idea/LSTM-MultiStep-Load-Forecasting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/LSTM-MultiStep-Forecasting.iml" filepath="$PROJECT_DIR$/.idea/LSTM-MultiStep-Forecasting.iml" />
     </modules>
   </component>
 </project>
