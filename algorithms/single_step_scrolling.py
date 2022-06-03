@@ -7,6 +7,12 @@
 
 """
 import os
+import sys
+
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(rootPath)
+
 from args import sss_args_parser
 from util import train, ss_rolling_test, load_data
 
