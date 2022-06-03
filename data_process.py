@@ -128,7 +128,7 @@ def nn_seq_sss(B):
     return Dtr, Dte, lis1, lis2
 
 
-# Multiple model single step data processing.
+# Multiple models single step data processing.
 def nn_seq_mmss(B, pred_step_size):
     data = load_data()
 

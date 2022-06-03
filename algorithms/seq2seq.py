@@ -13,10 +13,11 @@ rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
 
 from args import seq2seq_args_parser
-from util import seq2seq_train, seq2seq_test, load_data
+from model_train import seq2seq_train, load_data
+from model_test import seq2seq_test
 
 path = os.path.abspath(os.path.dirname(os.getcwd()))
-LSTM_PATH = path + '/model/seq2seq.pkl'
+LSTM_PATH = path + '/models/seq2seq.pkl'
 
 if __name__ == '__main__':
     args = seq2seq_args_parser()

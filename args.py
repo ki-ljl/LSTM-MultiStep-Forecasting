@@ -56,7 +56,7 @@ def mo_args_parser():
     return args
 
 
-# multiple model single step
+# multiple models single step
 def mmss_args_parser():
     parser = argparse.ArgumentParser()
 

@@ -14,14 +14,17 @@ rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
 
 from args import sss_args_parser
-from util import train, ss_rolling_test, load_data
+from model_train import train, load_data
+from model_test import ss_rolling_test
 
 path = os.path.abspath(os.path.dirname(os.getcwd()))
-LSTM_PATH = path + '/model/single_step_scrolling.pkl'
+LSTM_PATH = path + '/models/single_step_scrolling.pkl'
 
 
 if __name__ == '__main__':
     args = sss_args_parser()
     flag = 'sss'
-    Dtr, Dte, lis1, lis2 = load_data(args, flag, batch_size=1)
+    Dtr, _, _, _ = load_data(args, flag, batch_size=args.batch_size)
+    train(args, Dtr, LSTM_PATH)
+    _, Dte, _, lis2 = load_data(args, flag, batch_size=1)
     ss_rolling_test(args, Dte, lis2, LSTM_PATH)

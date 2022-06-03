@@ -13,11 +13,12 @@ rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
 
 from args import mms_args_parser
-from util import train, mms_rolling_test, load_data
+from model_train import train, load_data
+from model_test import mms_rolling_test
 
 args = mms_args_parser()
 path = os.path.abspath(os.path.dirname(os.getcwd()))
-LSTM_PATHS = [path + '/model/mms/' + str(i) + '.pkl' for i in range(args.pred_step_size)]
+LSTM_PATHS = [path + '/models/mms/' + str(i) + '.pkl' for i in range(args.pred_step_size)]
 
 if __name__ == '__main__':
     flag = 'mms'

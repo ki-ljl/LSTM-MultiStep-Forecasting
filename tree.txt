@@ -4,9 +4,10 @@ E:.
 ©¦  args.py
 ©¦  data_process.py
 ©¦  models.py
+©¦  model_test.py
+©¦  model_train.py
 ©¦  README.md
 ©¦  tree.txt
-©¦  util.py
 ©¦  
 ©À©¤.idea
 ©¦  ©¦  LSTM-MultiStep-Forecasting.iml
@@ -30,42 +31,36 @@ E:.
 ©À©¤data
 ©¦      data.csv
 ©¦      
-©À©¤model
-©¦  ©¦  multiple_outputs.pkl
-©¦  ©¦  seq2seq.pkl
-©¦  ©¦  single_step_scrolling.pkl
-©¦  ©¦  
-©¦  ©À©¤mms
-©¦  ©¦      0.pkl
-©¦  ©¦      1.pkl
-©¦  ©¦      10.pkl
-©¦  ©¦      11.pkl
-©¦  ©¦      2.pkl
-©¦  ©¦      3.pkl
-©¦  ©¦      4.pkl
-©¦  ©¦      5.pkl
-©¦  ©¦      6.pkl
-©¦  ©¦      7.pkl
-©¦  ©¦      8.pkl
-©¦  ©¦      9.pkl
-©¦  ©¦      
-©¦  ©¸©¤mmss
-©¦          0.pkl
-©¦          1.pkl
-©¦          10.pkl
-©¦          11.pkl
-©¦          2.pkl
-©¦          3.pkl
-©¦          4.pkl
-©¦          5.pkl
-©¦          6.pkl
-©¦          7.pkl
-©¦          8.pkl
-©¦          9.pkl
-©¦          
-©¸©¤__pycache__
-        args.cpython-37.pyc
-        data_process.cpython-37.pyc
-        models.cpython-37.pyc
-        util.cpython-37.pyc
-        
+©¸©¤models
+    ©¦  multiple_outputs.pkl
+    ©¦  seq2seq.pkl
+    ©¦  single_step_scrolling.pkl
+    ©¦  
+    ©À©¤mms
+    ©¦      0.pkl
+    ©¦      1.pkl
+    ©¦      10.pkl
+    ©¦      11.pkl
+    ©¦      2.pkl
+    ©¦      3.pkl
+    ©¦      4.pkl
+    ©¦      5.pkl
+    ©¦      6.pkl
+    ©¦      7.pkl
+    ©¦      8.pkl
+    ©¦      9.pkl
+    ©¦      
+    ©¸©¤mmss
+            0.pkl
+            1.pkl
+            10.pkl
+            11.pkl
+            2.pkl
+            3.pkl
+            4.pkl
+            5.pkl
+            6.pkl
+            7.pkl
+            8.pkl
+            9.pkl
+            

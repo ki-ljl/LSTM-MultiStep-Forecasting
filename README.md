@@ -16,7 +16,7 @@ pandas==1.2.3
 │  models.py
 │  README.md
 │  tree.txt
-│  util.py
+│  model_train.py
 │          
 ├─algorithms
 │      multiple_outputs.py
@@ -28,7 +28,7 @@ pandas==1.2.3
 ├─data
 │      data.csv
 │      
-├─model
+├─models
    │  multiple_outputs.pkl
    │  seq2seq.pkl
    │  single_step_scrolling.pkl

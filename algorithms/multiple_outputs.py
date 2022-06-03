@@ -13,10 +13,11 @@ rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
 
 from args import mo_args_parser
-from util import train, test, load_data
+from model_train import train, load_data
+from model_test import test
 
 path = os.path.abspath(os.path.dirname(os.getcwd()))
-LSTM_PATH = path + '/model/multiple_outputs.pkl'
+LSTM_PATH = path + '/models/multiple_outputs.pkl'
 
 if __name__ == '__main__':
     args = mo_args_parser()
