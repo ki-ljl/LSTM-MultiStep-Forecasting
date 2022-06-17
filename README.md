@@ -18,9 +18,6 @@ pandas==1.2.3
 │  model_train.py
 │  README.md
 │  tree.txt
-<<<<<<< HEAD
-│  model_train.py
-=======
 │  
 ├─.idea
 │  │  LSTM-MultiStep-Forecasting.iml
@@ -33,7 +30,6 @@ pandas==1.2.3
 │  └─inspectionProfiles
 │          profiles_settings.xml
 │          Project_Default.xml
->>>>>>> 3246c00c27084b2a0820426e2c07e4f68649f44c
 │          
 ├─algorithms
 │      multiple_outputs.py
@@ -45,41 +41,6 @@ pandas==1.2.3
 ├─data
 │      data.csv
 │      
-<<<<<<< HEAD
-├─models
-   │  multiple_outputs.pkl
-   │  seq2seq.pkl
-   │  single_step_scrolling.pkl
-   │  
-   ├─mms
-   │      0.pkl
-   │      1.pkl
-   │      10.pkl
-   │      11.pkl
-   │      2.pkl
-   │      3.pkl
-   │      4.pkl
-   │      5.pkl
-   │      6.pkl
-   │      7.pkl
-   │      8.pkl
-   │      9.pkl
-   │      
-   └─mmss
-           0.pkl
-           1.pkl
-           10.pkl
-           11.pkl
-           2.pkl
-           3.pkl
-           4.pkl
-           5.pkl
-           6.pkl
-           7.pkl
-           8.pkl
-           9.pkl
-
-=======
 └─models
     │  multiple_outputs.pkl
     │  seq2seq.pkl
@@ -112,7 +73,6 @@ pandas==1.2.3
             7.pkl
             8.pkl
             9.pkl
->>>>>>> 3246c00c27084b2a0820426e2c07e4f68649f44c
 ```
 1. **args.py** is a parameter configuration file, where you can set model parameters and training parameters.
 2. **data_process.py** is the data processing file. If you need to use your own data, then you can modify the load_data function in data_process.py.
