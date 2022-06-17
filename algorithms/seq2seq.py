@@ -22,6 +22,6 @@ LSTM_PATH = path + '/models/seq2seq.pkl'
 if __name__ == '__main__':
     args = seq2seq_args_parser()
     flag = 'seq2seq'
-    Dtr, Dte, lis1, lis2 = load_data(args, flag, args.batch_size)
-    seq2seq_train(args, Dtr, LSTM_PATH)
-    seq2seq_test(args, Dte, lis2, LSTM_PATH)
+    Dtr, Val, Dte, m, n = load_data(args, flag, args.batch_size)
+    seq2seq_train(args, Dtr, Val, LSTM_PATH)
+    seq2seq_test(args, Dte, LSTM_PATH, m, n)

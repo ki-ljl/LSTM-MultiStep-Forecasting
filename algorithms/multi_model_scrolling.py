@@ -22,8 +22,8 @@ LSTM_PATHS = [path + '/models/mms/' + str(i) + '.pkl' for i in range(args.pred_s
 
 if __name__ == '__main__':
     flag = 'mms'
-    Dtrs, Dtes, lis1, lis2 = load_data(args, flag, batch_size=args.batch_size)
-    for Dtr, path in zip(Dtrs, LSTM_PATHS):
-        train(args, Dtr, path)
-    Dtr, Dte, lis1, lis2 = load_data(args, flag='sss', batch_size=1)
-    mms_rolling_test(args, Dte, lis2, LSTM_PATHS)
+    Dtrs, Vals, Dtes, m, n = load_data(args, flag, batch_size=args.batch_size)
+    for Dtr, Val, path in zip(Dtrs, Vals, LSTM_PATHS):
+        train(args, Dtr, Val, path)
+    Dtr, Val, Dte, m, n = load_data(args, flag='sss', batch_size=1)
+    mms_rolling_test(args, Dte, LSTM_PATHS, m, n)

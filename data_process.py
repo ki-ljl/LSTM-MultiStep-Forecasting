@@ -31,7 +31,6 @@ def load_data():
     """
     path = os.path.dirname(os.path.realpath(__file__)) + '/data/data.csv'
     df = pd.read_csv(path, encoding='gbk')
-    columns = df.columns
     df.fillna(df.mean(), inplace=True)
 
     return df
@@ -52,13 +51,14 @@ class MyDataset(Dataset):
 def nn_seq_mo(B, num):
     data = load_data()
 
-    train = data[:int(len(data) * 0.7)]
-    test = data[int(len(data) * 0.7):len(data)]
+    train = data[:int(len(data) * 0.6)]
+    val = data[int(len(data) * 0.6):int(len(data) * 0.8)]
+    test = data[int(len(data) * 0.8):len(data)]
+    m, n = np.max(train[train.columns[1]]), np.min(train[train.columns[1]])
 
     def process(dataset, batch_size):
         load = dataset[dataset.columns[1]]
         load = load.tolist()
-        m, n = np.max(load), np.min(load)
         load = (load - n) / (m - n)
         dataset = dataset.values.tolist()
         seq = []
@@ -82,25 +82,27 @@ def nn_seq_mo(B, num):
         seq = MyDataset(seq)
         seq = DataLoader(dataset=seq, batch_size=batch_size, shuffle=False, num_workers=0, drop_last=True)
 
-        return seq, [m, n]
+        return seq
 
-    Dtr, lis1 = process(train, B)
-    Dte, lis2 = process(test, B)
+    Dtr = process(train, B)
+    Val = process(val, B)
+    Dte = process(test, B)
 
-    return Dtr, Dte, lis1, lis2
+    return Dtr, Val, Dte, m, n
 
 
 # Single step scrolling data processing.
 def nn_seq_sss(B):
     data = load_data()
 
-    train = data[:int(len(data) * 0.7)]
-    test = data[int(len(data) * 0.7):len(data)]
+    train = data[:int(len(data) * 0.6)]
+    val = data[int(len(data) * 0.6):int(len(data) * 0.8)]
+    test = data[int(len(data) * 0.8):len(data)]
+    m, n = np.max(train[train.columns[1]]), np.min(train[train.columns[1]])
 
     def process(dataset, batch_size):
         load = dataset[dataset.columns[1]]
         load = load.tolist()
-        m, n = np.max(load), np.min(load)
         load = (load - n) / (m - n)
         dataset = dataset.values.tolist()
         seq = []
@@ -120,25 +122,27 @@ def nn_seq_sss(B):
         seq = MyDataset(seq)
         seq = DataLoader(dataset=seq, batch_size=batch_size, shuffle=False, num_workers=0, drop_last=True)
 
-        return seq, [m, n]
+        return seq
 
-    Dtr, lis1 = process(train, B)
-    Dte, lis2 = process(test, B)
+    Dtr = process(train, B)
+    Val = process(val, B)
+    Dte = process(test, B)
 
-    return Dtr, Dte, lis1, lis2
+    return Dtr, Val, Dte, m, n
 
 
 # Multiple models single step data processing.
 def nn_seq_mmss(B, pred_step_size):
     data = load_data()
 
-    train = data[:int(len(data) * 0.7)]
-    test = data[int(len(data) * 0.7):len(data)]
+    train = data[:int(len(data) * 0.6)]
+    val = data[int(len(data) * 0.6):int(len(data) * 0.8)]
+    test = data[int(len(data) * 0.8):len(data)]
+    m, n = np.max(train[train.columns[1]]), np.min(train[train.columns[1]])
 
     def process(dataset, batch_size):
         load = dataset[dataset.columns[1]]
         load = load.tolist()
-        m, n = np.max(load), np.min(load)
         load = (load - n) / (m - n)
         dataset = dataset.values.tolist()
         #
@@ -163,16 +167,13 @@ def nn_seq_mmss(B, pred_step_size):
             seq = DataLoader(dataset=seq, batch_size=batch_size, shuffle=False, num_workers=0, drop_last=True)
             res.append(seq)
 
-        return res, [m, n]
+        return res
 
-    Dtrs, lis1 = process(train, B)
-    Dtes, lis2 = process(test, B)
+    Dtrs = process(train, B)
+    Vals = process(val, B)
+    Dtes = process(test, B)
 
-    return Dtrs, Dtes, lis1, lis2
-
-
-def nn_seq2seq():
-    print('')
+    return Dtrs, Vals, Dtes, m, n
 
 
 def get_mape(x, y):

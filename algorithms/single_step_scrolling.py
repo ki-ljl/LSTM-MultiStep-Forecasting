@@ -24,7 +24,7 @@ LSTM_PATH = path + '/models/single_step_scrolling.pkl'
 if __name__ == '__main__':
     args = sss_args_parser()
     flag = 'sss'
-    Dtr, _, _, _ = load_data(args, flag, batch_size=args.batch_size)
-    train(args, Dtr, LSTM_PATH)
-    _, Dte, _, lis2 = load_data(args, flag, batch_size=1)
-    ss_rolling_test(args, Dte, lis2, LSTM_PATH)
+    Dtr, Val, _, _, _ = load_data(args, flag, batch_size=args.batch_size)
+    train(args, Dtr, Val, LSTM_PATH)
+    _, _, Dte, m, n = load_data(args, flag, batch_size=1)
+    ss_rolling_test(args, Dte, LSTM_PATH, m, n)

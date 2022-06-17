@@ -22,6 +22,6 @@ LSTM_PATH = path + '/models/multiple_outputs.pkl'
 if __name__ == '__main__':
     args = mo_args_parser()
     flag = 'mo'
-    Dtr, Dte, lis1, lis2 = load_data(args, flag, args.batch_size)
-    train(args, Dtr, LSTM_PATH)
-    test(args, Dte, lis2, LSTM_PATH)
+    Dtr, Val, Dte, m, n = load_data(args, flag, args.batch_size)
+    train(args, Dtr, Val, LSTM_PATH)
+    test(args, Dte, LSTM_PATH, m, n)
