@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27fe1a01-e8b6-4845-915c-6e06040ab964" name="Changes" comment="" />
+    <list default="true" id="27fe1a01-e8b6-4845-915c-6e06040ab964" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/seq2seq.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/models/seq2seq.pkl" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,7 +35,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="PyScientificConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.multi_model_scrolling">
+  <component name="RunManager" selected="Python.seq2seq">
     <configuration name="multi_model_scrolling" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="LSTM-MultiStep-Forecasting" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -144,11 +148,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.seq2seq" />
         <item itemvalue="Python.multi_model_scrolling" />
         <item itemvalue="Python.multi_model_single_step" />
         <item itemvalue="Python.single_step_scrolling" />
         <item itemvalue="Python.multiple_outputs" />
-        <item itemvalue="Python.seq2seq" />
       </list>
     </recent_temporary>
   </component>
@@ -175,7 +179,9 @@
       <workItem from="1654948123337" duration="5373000" />
       <workItem from="1654959918841" duration="610000" />
       <workItem from="1654999581324" duration="273000" />
-      <workItem from="1655437412510" duration="4037000" />
+      <workItem from="1655437412510" duration="4053000" />
+      <workItem from="1655445195047" duration="685000" />
+      <workItem from="1655477114579" duration="1104000" />
     </task>
     <servers />
   </component>
@@ -195,7 +201,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/LSTM_MultiStep_Forecasting$multi_model_scrolling.coverage" NAME="multi_model_scrolling Coverage Results" MODIFIED="1655442880621" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/algorithms" />
-    <SUITE FILE_PATH="coverage/LSTM_MultiStep_Forecasting$seq2seq.coverage" NAME="seq2seq Coverage Results" MODIFIED="1655438957983" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/algorithms" />
+    <SUITE FILE_PATH="coverage/LSTM_MultiStep_Forecasting$seq2seq.coverage" NAME="seq2seq Coverage Results" MODIFIED="1655477984869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/algorithms" />
     <SUITE FILE_PATH="coverage/LSTM_MultiStep_Forecasting$single_step_scrolling.coverage" NAME="single_step_scrolling Coverage Results" MODIFIED="1655442214342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/algorithms" />
     <SUITE FILE_PATH="coverage/LSTM_MultiStep_Forecasting$multiple_outputs.coverage" NAME="multiple_outputs Coverage Results" MODIFIED="1655442082781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/algorithms" />
     <SUITE FILE_PATH="coverage/LSTM_MultiStep_Forecasting$model_test.coverage" NAME="model_test Coverage Results" MODIFIED="1654521881191" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
