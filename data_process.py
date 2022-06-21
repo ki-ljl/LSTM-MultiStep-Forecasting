@@ -58,8 +58,8 @@ def nn_seq_mo(B, num):
 
     def process(dataset, batch_size):
         load = dataset[dataset.columns[1]]
-        load = load.tolist()
         load = (load - n) / (m - n)
+        load = load.tolist()
         dataset = dataset.values.tolist()
         seq = []
         for i in range(0, len(dataset) - 24 - num, num):
@@ -102,8 +102,8 @@ def nn_seq_sss(B):
 
     def process(dataset, batch_size):
         load = dataset[dataset.columns[1]]
-        load = load.tolist()
         load = (load - n) / (m - n)
+        load = load.tolist()
         dataset = dataset.values.tolist()
         seq = []
         for i in range(len(dataset) - 24):
@@ -142,9 +142,9 @@ def nn_seq_mmss(B, pred_step_size):
 
     def process(dataset, batch_size):
         load = dataset[dataset.columns[1]]
-        load = load.tolist()
         load = (load - n) / (m - n)
         dataset = dataset.values.tolist()
+        load = load.tolist()
         #
         seqs = [[] for i in range(pred_step_size)]
         for i in range(0, len(dataset) - 24 - pred_step_size, pred_step_size):
