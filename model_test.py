@@ -23,7 +23,7 @@ from tqdm import tqdm
 
 from data_process import device, get_mape, setup_seed, MyDataset
 from model_train import load_data
-from models import LSTM, BiLSTM, Seq2Seq
+from models import LSTM, BiLSTM, Seq2Seq, MTL_LSTM
 
 setup_seed(20)
 
@@ -317,6 +317,43 @@ def mms_rolling_test(args, Dte, PATHS, m, n):
 #     plot(y, pred)
 
 
+def mtl_test(args, Dte, scaler, path):
+    print('loading models...')
+    input_size, hidden_size, num_layers = args.input_size, args.hidden_size, args.num_layers
+    output_size = args.output_size
+    model = MTL_LSTM(input_size, hidden_size, num_layers, output_size, batch_size=args.batch_size,
+                     n_outputs=args.n_outputs).to(device)
+    # models = LSTM(input_size, hidden_size, num_layers, output_size, batch_size=args.batch_size).to(device)
+    model.load_state_dict(torch.load(path)['models'])
+    model.eval()
+    print('predicting...')
+    ys = [[] for i in range(args.n_outputs)]
+    preds = [[] for i in range(args.n_outputs)]
+    for (seq, targets) in tqdm(Dte):
+        targets = np.array(targets.data.tolist())  # (batch_size, n_outputs, pred_step_size)
+        for i in range(args.n_outputs):
+            target = targets[:, i, :]
+            target = list(chain.from_iterable(target))
+            ys[i].extend(target)
+        seq = seq.to(device)
+        with torch.no_grad():
+            _pred = model(seq)
+            for i in range(_pred.shape[0]):
+                pred = _pred[i]
+                pred = list(chain.from_iterable(pred.data.tolist()))
+                preds[i].extend(pred)
+
+    # ys, preds = [np.array(y) for y in ys], [np.array(pred) for pred in preds]
+    ys, preds = np.array(ys).T, np.array(preds).T
+    ys = scaler.inverse_transform(ys).T
+    preds = scaler.inverse_transform(preds).T
+    for ind, (y, pred) in enumerate(zip(ys, preds), 0):
+        print(get_mape(y, pred))
+        mtl_plot(y, pred, ind + 1)
+
+    plt.show()
+
+
 def plot(y, pred):
     # plot
     x = [i for i in range(1, 150 + 1)]
@@ -330,3 +367,17 @@ def plot(y, pred):
     plt.grid(axis='y')
     plt.legend()
     plt.show()
+
+
+def mtl_plot(y, pred, ind):
+    # plot
+    x = [i for i in range(1, 150 + 1)]
+    # print(len(y))
+    x_smooth = np.linspace(np.min(x), np.max(x), 500)
+    y_smooth = make_interp_spline(x, y[150:300])(x_smooth)
+    plt.plot(x_smooth, y_smooth, c='green', marker='*', ms=1, alpha=0.75, label='true' + str(ind))
+
+    y_smooth = make_interp_spline(x, pred[150:300])(x_smooth)
+    plt.plot(x_smooth, y_smooth, c='red', marker='o', ms=1, alpha=0.75, label='pred' + str(ind))
+    plt.grid(axis='y')
+    plt.legend(loc='upper center', ncol=6)

@@ -11,6 +11,7 @@ import random
 import numpy as np
 import pandas as pd
 import torch
+from sklearn.preprocessing import MinMaxScaler
 from torch.utils.data import Dataset, DataLoader
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -25,11 +26,11 @@ def setup_seed(seed):
     torch.backends.cudnn.deterministic = True
 
 
-def load_data():
+def load_data(file_name):
     """
     :return: dataframe
     """
-    path = os.path.dirname(os.path.realpath(__file__)) + '/data/data.csv'
+    path = os.path.dirname(os.path.realpath(__file__)) + '/data/' + file_name
     df = pd.read_csv(path, encoding='gbk')
     df.fillna(df.mean(), inplace=True)
 
@@ -49,7 +50,7 @@ class MyDataset(Dataset):
 
 # Multiple outputs data processing.
 def nn_seq_mo(B, num):
-    data = load_data()
+    data = load_data('data.csv')
 
     train = data[:int(len(data) * 0.6)]
     val = data[int(len(data) * 0.6):int(len(data) * 0.8)]
@@ -93,7 +94,7 @@ def nn_seq_mo(B, num):
 
 # Single step scrolling data processing.
 def nn_seq_sss(B):
-    data = load_data()
+    data = load_data('data.csv')
 
     train = data[:int(len(data) * 0.6)]
     val = data[int(len(data) * 0.6):int(len(data) * 0.8)]
@@ -133,7 +134,7 @@ def nn_seq_sss(B):
 
 # Multiple models single step data processing.
 def nn_seq_mmss(B, pred_step_size):
-    data = load_data()
+    data = load_data('data.csv')
 
     train = data[:int(len(data) * 0.6)]
     val = data[int(len(data) * 0.6):int(len(data) * 0.8)]
@@ -174,6 +175,56 @@ def nn_seq_mmss(B, pred_step_size):
     Dtes = process(test, B)
 
     return Dtrs, Vals, Dtes, m, n
+
+
+# Multi task learning
+def nn_seq_mtl(B, pred_step_size):
+    data = load_data('mtl_data_2.csv')
+    # split
+    train = data[:int(len(data) * 0.6)]
+    val = data[int(len(data) * 0.6):int(len(data) * 0.8)]
+    test = data[int(len(data) * 0.8):len(data)]
+    # normalization
+    train.drop([train.columns[0]], axis=1, inplace=True)
+    val.drop([val.columns[0]], axis=1, inplace=True)
+    test.drop([test.columns[0]], axis=1, inplace=True)
+    scaler = MinMaxScaler()
+    train = scaler.fit_transform(train.values)
+    val = scaler.transform(val.values)
+    test = scaler.transform(test.values)
+
+    def process(dataset, batch_size):
+        dataset = dataset.tolist()
+        seq = []
+        for i in range(0, len(dataset) - 24 - pred_step_size, pred_step_size):
+            train_seq = []
+            for j in range(i, i + 24):
+                x = []
+                for c in range(len(dataset[0])):  # 前24个时刻的所有变量
+                    x.append(dataset[j][c])
+                train_seq.append(x)
+            # 下几个时刻的所有变量
+            train_labels = []
+            for j in range(len(dataset[0])):
+                train_label = []
+                for k in range(i + 24, i + 24 + pred_step_size):
+                    train_label.append(dataset[k][j])
+                train_labels.append(train_label)
+            # tensor
+            train_seq = torch.FloatTensor(train_seq)
+            train_labels = torch.FloatTensor(train_labels)
+            seq.append((train_seq, train_labels))
+
+        seq = MyDataset(seq)
+        seq = DataLoader(dataset=seq, batch_size=batch_size, shuffle=False, num_workers=0, drop_last=True)
+
+        return seq
+
+    Dtr = process(train, B)
+    Val = process(val, B)
+    Dte = process(test, B)
+
+    return Dtr, Val, Dte, scaler
 
 
 def get_mape(x, y):
