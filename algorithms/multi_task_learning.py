@@ -23,6 +23,6 @@ LSTM_PATH = path + '/models/mtl.pkl'
 
 if __name__ == '__main__':
     args = multi_task_args_parser()
-    Dtr, Val, Dte, scaler = nn_seq_mtl(args.batch_size, pred_step_size=args.pred_step_size)
+    Dtr, Val, Dte, scaler = nn_seq_mtl(seq_len=args.seq_len, B=args.batch_size, pred_step_size=args.pred_step_size)
     mtl_train(args, Dtr, Val, LSTM_PATH)
     mtl_test(args, Dte, scaler, LSTM_PATH)

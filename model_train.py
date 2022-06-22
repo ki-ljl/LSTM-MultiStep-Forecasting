@@ -27,11 +27,11 @@ setup_seed(20)
 
 def load_data(args, flag, batch_size):
     if flag == 'mms' or flag == 'mmss':
-        Dtr, Val, Dte, m, n = nn_seq_mmss(B=batch_size, pred_step_size=args.pred_step_size)
+        Dtr, Val, Dte, m, n = nn_seq_mmss(seq_len=args.seq_len, B=batch_size, pred_step_size=args.pred_step_size)
     elif flag == 'mo' or flag == 'seq2seq':
-        Dtr, Val, Dte, m, n = nn_seq_mo(B=batch_size, num=args.output_size)
+        Dtr, Val, Dte, m, n = nn_seq_mo(seq_len=args.seq_len, B=batch_size, num=args.output_size)
     else:
-        Dtr, Val, Dte, m, n = nn_seq_sss(B=batch_size)
+        Dtr, Val, Dte, m, n = nn_seq_sss(seq_len=args.seq_len, B=batch_size)
 
     return Dtr, Val, Dte, m, n
 

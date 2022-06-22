@@ -49,7 +49,7 @@ class MyDataset(Dataset):
 
 
 # Multiple outputs data processing.
-def nn_seq_mo(B, num):
+def nn_seq_mo(seq_len, B, num):
     data = load_data('data.csv')
 
     train = data[:int(len(data) * 0.6)]
@@ -57,23 +57,23 @@ def nn_seq_mo(B, num):
     test = data[int(len(data) * 0.8):len(data)]
     m, n = np.max(train[train.columns[1]]), np.min(train[train.columns[1]])
 
-    def process(dataset, batch_size):
+    def process(dataset, batch_size, step_size):
         load = dataset[dataset.columns[1]]
         load = (load - n) / (m - n)
         load = load.tolist()
         dataset = dataset.values.tolist()
         seq = []
-        for i in range(0, len(dataset) - 24 - num, num):
+        for i in range(0, len(dataset) - seq_len - num, step_size):
             train_seq = []
             train_label = []
 
-            for j in range(i, i + 24):
+            for j in range(i, i + seq_len):
                 x = [load[j]]
                 for c in range(2, 8):
                     x.append(dataset[j][c])
                 train_seq.append(x)
 
-            for j in range(i + 24, i + 24 + num):
+            for j in range(i + seq_len, i + seq_len + num):
                 train_label.append(load[j])
 
             train_seq = torch.FloatTensor(train_seq)
@@ -85,15 +85,15 @@ def nn_seq_mo(B, num):
 
         return seq
 
-    Dtr = process(train, B)
-    Val = process(val, B)
-    Dte = process(test, B)
+    Dtr = process(train, B, step_size=1)
+    Val = process(val, B, step_size=1)
+    Dte = process(test, B,step_size=num)
 
     return Dtr, Val, Dte, m, n
 
 
 # Single step scrolling data processing.
-def nn_seq_sss(B):
+def nn_seq_sss(seq_len, B):
     data = load_data('data.csv')
 
     train = data[:int(len(data) * 0.6)]
@@ -107,15 +107,15 @@ def nn_seq_sss(B):
         load = load.tolist()
         dataset = dataset.values.tolist()
         seq = []
-        for i in range(len(dataset) - 24):
+        for i in range(len(dataset) - seq_len):
             train_seq = []
             train_label = []
-            for j in range(i, i + 24):
+            for j in range(i, i + seq_len):
                 x = [load[j]]
                 for c in range(2, 8):
                     x.append(dataset[j][c])
                 train_seq.append(x)
-            train_label.append(load[i + 24])
+            train_label.append(load[i + seq_len])
             train_seq = torch.FloatTensor(train_seq)
             train_label = torch.FloatTensor(train_label).view(-1)
             seq.append((train_seq, train_label))
@@ -133,7 +133,7 @@ def nn_seq_sss(B):
 
 
 # Multiple models single step data processing.
-def nn_seq_mmss(B, pred_step_size):
+def nn_seq_mmss(seq_len, B, pred_step_size):
     data = load_data('data.csv')
 
     train = data[:int(len(data) * 0.6)]
@@ -141,21 +141,21 @@ def nn_seq_mmss(B, pred_step_size):
     test = data[int(len(data) * 0.8):len(data)]
     m, n = np.max(train[train.columns[1]]), np.min(train[train.columns[1]])
 
-    def process(dataset, batch_size):
+    def process(dataset, batch_size, step_size):
         load = dataset[dataset.columns[1]]
         load = (load - n) / (m - n)
         dataset = dataset.values.tolist()
         load = load.tolist()
         #
         seqs = [[] for i in range(pred_step_size)]
-        for i in range(0, len(dataset) - 24 - pred_step_size, pred_step_size):
+        for i in range(0, len(dataset) - seq_len - pred_step_size, step_size):
             train_seq = []
-            for j in range(i, i + 24):
+            for j in range(i, i + seq_len):
                 x = [load[j]]
                 for c in range(2, 8):
                     x.append(dataset[j][c])
                 train_seq.append(x)
-            for j, ind in zip(range(i + 24, i + 24 + pred_step_size), range(pred_step_size)):
+            for j, ind in zip(range(i + seq_len, i + seq_len + pred_step_size), range(pred_step_size)):
                 #
                 train_label = [load[j]]
                 seq = torch.FloatTensor(train_seq)
@@ -170,15 +170,15 @@ def nn_seq_mmss(B, pred_step_size):
 
         return res
 
-    Dtrs = process(train, B)
-    Vals = process(val, B)
-    Dtes = process(test, B)
+    Dtrs = process(train, B, step_size=1)
+    Vals = process(val, B, step_size=1)
+    Dtes = process(test, B, step_size=pred_step_size)
 
     return Dtrs, Vals, Dtes, m, n
 
 
 # Multi task learning
-def nn_seq_mtl(B, pred_step_size):
+def nn_seq_mtl(seq_len, B, pred_step_size):
     data = load_data('mtl_data_2.csv')
     # split
     train = data[:int(len(data) * 0.6)]
@@ -193,12 +193,12 @@ def nn_seq_mtl(B, pred_step_size):
     val = scaler.transform(val.values)
     test = scaler.transform(test.values)
 
-    def process(dataset, batch_size):
+    def process(dataset, batch_size, step_size):
         dataset = dataset.tolist()
         seq = []
-        for i in range(0, len(dataset) - 24 - pred_step_size, pred_step_size):
+        for i in range(0, len(dataset) - seq_len - pred_step_size, step_size):
             train_seq = []
-            for j in range(i, i + 24):
+            for j in range(i, i + seq_len):
                 x = []
                 for c in range(len(dataset[0])):  # 前24个时刻的所有变量
                     x.append(dataset[j][c])
@@ -207,7 +207,7 @@ def nn_seq_mtl(B, pred_step_size):
             train_labels = []
             for j in range(len(dataset[0])):
                 train_label = []
-                for k in range(i + 24, i + 24 + pred_step_size):
+                for k in range(i + seq_len, i + seq_len + pred_step_size):
                     train_label.append(dataset[k][j])
                 train_labels.append(train_label)
             # tensor
@@ -220,9 +220,9 @@ def nn_seq_mtl(B, pred_step_size):
 
         return seq
 
-    Dtr = process(train, B)
-    Val = process(val, B)
-    Dte = process(test, B)
+    Dtr = process(train, B, step_size=1)
+    Val = process(val, B, step_size=1)
+    Dte = process(test, B, step_size=pred_step_size)
 
     return Dtr, Val, Dte, scaler
 
